@@ -3,47 +3,64 @@
 namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Hash;
+use App\Http\Requests\RegisterRequest;
 use Session;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Http\Requests\LoginRequest;
 
 class AuthoriztionController extends Controller
 {
-    public function SignIn(Request $request){
-        $request->validate([
-            'user_email' => 'required',
-            'user_password' => 'required',
-        ]);
-   
-        $credentials = $request->only('user_email', 'user_password');
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard')->withSuccess('Signed in');
+    public function showRegister(){
+        if(Auth::check()){
+            return redirect('dashboard/index');
         }
-  
-        return redirect("/")->withError('Login details are not valid');
-    }
-    public function Register(){
-        
+        return view('user\pages\register');
     }
 
-   
+    public function showLogin(){
+        if(Auth::check()){
+            return redirect('dashboard/index');
+        }
+        return view('user\pages\login');
+    }
 
-    // public function dashboard()
-    // {
-    //     if(Auth::check()){
-    //         return view('dashboard');
-    //     }
-  
-    //     return redirect("login")->withSuccess('You are not allowed to access');
-    // }
-    
 
-    public function signOut() {
-        Session::flush();
-        Auth::logout();
-  
-        return Redirect('login');
+    public function Register(RegisterRequest $request){
+        $user = User::create($request->validated());
+
+        auth()->login($user);
+
+        return redirect('/')->with('success', "Account successfully registered.");
+    }
+
+    public function login(LoginRequest $request)
+    {
+        $credentials = $request->getCredentials();
+
+        if(!Auth::validate($credentials)):
+            return redirect()->to('login')
+                ->withErrors(trans('auth.failed'));
+        endif;
+
+        $user = Auth::getProvider()->retrieveByCredentials($credentials);
+
+        Auth::login($user);
+
+        return $this->authenticated($request, $user);
+    }
+
+    /**
+     * Handle response after user authenticated
+     * 
+     * @param Request $request
+     * @param Auth $user
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function authenticated(Request $request, $user) 
+    {
+        return redirect()->intended('dashboard/index');
     }
 
     

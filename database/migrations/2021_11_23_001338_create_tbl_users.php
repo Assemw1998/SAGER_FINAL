@@ -15,12 +15,11 @@ class CreateTblUsers extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('user_email', 255)->unique();
-            $table->string('user_first_name', 255);
-            $table->string('user_last_name', 255);
-            $table->string('user_password', 255);
-            $table->integer('product_ids')->unsigned();
-            $table->foreign('product_ids')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('email', 255)->unique();
+            $table->string('first_name', 255);
+            $table->string('last_name', 255);
+            $table->string('password', 255);
+            $table->integer('product_ids')->default(0);
             $table-> timestamp('created_at')->useCurrent();
             $table-> timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

@@ -24,7 +24,27 @@ Route::get('/clear', function() {
  });
 
 
-Route::get('/', function () {return view('user\pages\authorization');});
+Route::group(['middleware' => ['web']], function() {
+    Route::get('/', function () {return redirect('/login');});
+    //Register Routes
+    Route::get('/register', 'user\AuthoriztionController@showRegister');
+    Route::post('Register', 'user\AuthoriztionController@Register'); 
 
-Route::post('SignIn', 'user\AuthoriztionController@SignIn');  
-Route::post('Register', 'user\AuthoriztionController@Register');  
+    //Login Routes
+    Route::get('/login', 'user\AuthoriztionController@showLogin');
+    Route::post('LogIn', 'user\AuthoriztionController@LogIn'); 
+    
+    //dashboard
+    Route::get('dashboard/index', 'user\DashboardController@Index');
+});
+
+Route::group(['middleware' => ['auth']], function() {
+    /**
+     * Logout Routes
+     */
+    Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+});
+
+
+
+
