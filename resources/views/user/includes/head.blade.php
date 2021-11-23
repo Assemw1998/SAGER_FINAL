@@ -8,6 +8,8 @@
 <link href = {{ asset("libraries/bootstrap/css/bootstrap.css") }} rel="stylesheet" />
 <!--fontawesome-->
 <link href={{ asset("libraries/fontawesome/css/all.css") }} rel="stylesheet"/>
+<!--jquery-confirm-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 
 
 <!--Includes JS lIB-->
@@ -20,3 +22,5 @@
 <script type="text/javascript" src={{ asset("libraries/fontawesome/js/all.js") }} ></script> 
 <!--for the Animation Background-->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script> 
+<!--jquery-confirm-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
