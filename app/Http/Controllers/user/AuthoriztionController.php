@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Requests\LoginRequest;
 
+
 class AuthoriztionController extends Controller
 {
     public function showRegister(){
@@ -63,5 +64,14 @@ class AuthoriztionController extends Controller
         return redirect()->intended('dashboard/index');
     }
 
+
+    public function LogOut(Request $request) 
+    {
+        Session::flush();
+        
+        Auth::logout();
+
+        return redirect('/');
+    }
     
 }

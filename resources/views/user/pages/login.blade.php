@@ -10,7 +10,7 @@
             </div>
             <div class="controls">
                 @include('user.layouts.partials.message')
-                <form  action="{{ url('LogIn')}}" method="post">
+                <form  action="{{ url('LogInAu')}}" method="post">
                     @csrf
                     <div class="form-group">
                         <label for="email" class="inputs-label">Email</label>

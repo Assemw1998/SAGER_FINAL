@@ -28,22 +28,21 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('/', function () {return redirect('/login');});
     //Register Routes
     Route::get('/register', 'user\AuthoriztionController@showRegister');
-    Route::post('Register', 'user\AuthoriztionController@Register'); 
+    Route::post('RegisterAu', 'user\AuthoriztionController@Register'); 
 
     //Login Routes
     Route::get('/login', 'user\AuthoriztionController@showLogin');
-    Route::post('LogIn', 'user\AuthoriztionController@LogIn'); 
+    Route::post('LogInAu', 'user\AuthoriztionController@LogIn');
+    
+    //logout
+    Route::get('/logout','user\AuthoriztionController@LogOut');
     
     //dashboard
-    Route::get('dashboard/index', 'user\DashboardController@Index');
+    Route::get('dashboard/index','user\DashboardController@Index'); 
 });
 
-Route::group(['middleware' => ['auth']], function() {
-    /**
-     * Logout Routes
-     */
-    Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
-});
+
+    
 
 
 

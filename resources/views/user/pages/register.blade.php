@@ -8,7 +8,7 @@
                 <h1 class="logo-caption"><span class="tweak">Us</span>er <span class="tweak">Regi</span>ster</h1>
             </div>
             <div class="controls">
-                <form  action="{{ url('Register')}}" method="post">
+                <form  action="{{ url('RegisterAu')}}" method="post">
                     @csrf
                     <div class="form-group">
                         <label for="email" class="inputs-label">Email</label>
