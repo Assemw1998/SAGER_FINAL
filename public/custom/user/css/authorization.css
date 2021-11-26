@@ -24,7 +24,7 @@ body, html {
 	margin-bottom: 0px;
 }
 #login-box .logo .tweak {
-	color: #007bff;
+	color: #dc3545;
 }
 #login-box .controls {
 	padding: 5%;
@@ -51,7 +51,7 @@ body, html {
 #login-box button.btn-custom {
 	border-radius: 2px;
 	margin-top: 8px;
-	background:#007bff;
+	background:#dc3545;
 	border-color: #191919;
 	color: white;
 	font-family: 'Nunito', sans-serif;
@@ -63,7 +63,7 @@ body, html {
 	-o-transition: all 500ms ease;
 	transition: all 500ms ease;
 	background: #191919;
-	border-color: #007bff;
+	border-color: #dc3545;
 }
 #particles-js{
   	width: 100%;
@@ -102,4 +102,12 @@ body, html {
 input{
 	color: black!important;
 	background: #ffff! important;
+}
+
+a{
+	color:#dc3545;
+}
+
+a:hover{
+	color:#ffff;
 }

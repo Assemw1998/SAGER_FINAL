@@ -4,22 +4,21 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTblProducts extends Migration
+class CreateTblCategoryIds extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
-     */
+     */ 
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('category_ids', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 255);
-            $table->string('description', 255);
-            $table->string('quantity', 255);
-            $table->string('price', 255);
-            $table->string('image_url', 255);           
+            $table->integer('category_id')->unsigned();
+            $table->integer('product_id')->unsigned();
+            $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
             $table-> timestamp('created_at')->useCurrent();
             $table-> timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
@@ -32,6 +31,6 @@ class CreateTblProducts extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_products');
+        Schema::dropIfExists('tbl_category_ids');
     }
 }

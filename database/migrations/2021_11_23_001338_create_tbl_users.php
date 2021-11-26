@@ -19,7 +19,7 @@ class CreateTblUsers extends Migration
             $table->string('first_name', 255);
             $table->string('last_name', 255);
             $table->string('password', 255);
-            $table->integer('product_ids')->default(0);
+            $table->integer('product')->default(0);
             $table-> timestamp('created_at')->useCurrent();
             $table-> timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

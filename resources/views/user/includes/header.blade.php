@@ -3,7 +3,7 @@
         <div class="navbar-header" data-logobg="skin6">
             <a class="navbar-brand" href="dashboard.html">
                 <b class="logo-icon">
-                    <img src="{{asset("images/public/sager_logo.png")}}" alt="homepage" width="50" />
+                    <img src="{{asset("images/public/sager_logo.png")}}" alt="homepage" width="150" />
                 </b>
             </a>
             <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"

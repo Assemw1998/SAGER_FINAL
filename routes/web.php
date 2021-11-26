@@ -29,7 +29,7 @@ Route::group(['middleware' => ['web']], function() {
     //Register Routes
     Route::get('/register', 'user\AuthoriztionController@showRegister');
     Route::post('RegisterAu', 'user\AuthoriztionController@Register'); 
-
+    
     //Login Routes
     Route::get('/login', 'user\AuthoriztionController@showLogin');
     Route::post('LogInAu', 'user\AuthoriztionController@LogIn');
@@ -38,8 +38,29 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('/logout','user\AuthoriztionController@LogOut');
     
     //dashboard
+    /*index*/
     Route::get('dashboard/index','user\DashboardController@Index'); 
+
+    /*users*/
+    Route::get('dashboard/users','user\DashboardController@Users'); 
+    Route::post('dashboard/users/get','user\DashboardController@GetUsers'); 
+    Route::post('dashboard/users/update','user\DashboardController@UpdateUser'); 
+    Route::post('dashboard/users/add','user\DashboardController@AddUser'); 
+    Route::post('dashboard/users/delete','user\DashboardController@DeleteUser'); 
+
+
+    /*proudcts*/
+    Route::get('dashboard/proudcts','user\DashboardController@Proudcts'); 
+    Route::post('dashboard/product/get','user\DashboardController@GetProduct'); 
+    Route::post('dashboard/product/update','user\DashboardController@UpdateProduct'); 
+
+
+    
+    
 });
+
+
+
 
 
     
