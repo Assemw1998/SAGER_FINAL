@@ -110,18 +110,8 @@ class DashboardController extends Controller
         if(!Auth::check()){
             return redirect('/login');
         }
-       // $products= DB::table('products')->get();
+        $products= DB::table('products')->get();
         $categories= DB::table('categories')->get();
-        $category_ids= DB::table('category_ids')->get();
-
-
-        $products = DB::table('products')
-        ->rightJoin('category_ids', 'products.id', '=', 'category_ids.product_id')
-        ->rightJoin('categories', 'category_ids.category_id', '=', 'categories.id')
-        ->select('products.*','categories.name as category_name')
-        ->get();
-
-        dd($products);
         return view('user\pages\dashboard\proudcts',compact('products','categories'));
     }
     
@@ -135,8 +125,7 @@ class DashboardController extends Controller
     }
 
     public function UpdateProduct(Request $request){
-        dd($request->category_ids);
-        $data=['name' => $request->name,'description' => $request->description,'quantity' => $request->quantity,'price'=>$request->price,'category_ids'=>$request->category_ids];
+        $data=['name' => $request->name,'description' => $request->description,'quantity' => $request->quantity,'price'=>$request->price,'category_ids'=>$request->category_ids_table];
         $id=$request->product_id;
         if ($request->file('image_url')) {
             $image_path = $request->file('image_url');
@@ -146,13 +135,49 @@ class DashboardController extends Controller
             $image_name=$this->ImageName(5,$image_type);
             $path = $request->file('image_url')->storeAs('proudcts_images', $image_name, 'public');
             $data = array("image_url" =>$path);
-            return $this->UpdateProductQuery($data,$id);
+            return $this->UpdateProductQuery($data,$id,$request->category_ids_table);
         }else{
-            return $this->UpdateProductQuery($data,$id);
+            return $this->UpdateProductQuery($data,$id,$request->category_ids_table);
         }  
     }
 
-    function ImageName($length ,$image_path) {
+
+    function UpdateProductQuery($data,$id,$categories_array){
+        $categories_array= json_decode($categories_array,true);
+    
+        DB::table('category_ids')->where('product_id', $id)->delete();
+        foreach($categories_array as $category_array){
+            DB::table('category_ids')->insert(['category_id'=>$category_array,'product_id'=>$id]);
+        }
+
+        DB::table('products')->where('id',$id)->update($data);
+        return true;
+    }
+
+    public function AddProduct(Request $request){
+        $data=['name' => $request->name,'description' => $request->description,'quantity' => $request->quantity,'price'=>$request->price,'category_ids'=>$request->category_ids_table_add];
+        $image_path = $request->file('image_url');
+        $image_type=$image_path->getClientOriginalName();
+        $image_type=explode('.', $image_type);
+        $image_type=$image_type[1];
+        $image_name=$this->ImageName(5,$image_type);
+        $path = $request->file('image_url')->storeAs('proudcts_images', $image_name, 'public');
+        $data += array("image_url" =>$path);
+
+        return $this->AddProductQuery($data,$request->category_ids_table_add);
+    }
+
+    public function AddProductQuery($data,$categories_array){
+        $categories_array= json_decode($categories_array,true);
+        DB::table('products')->insert($data);
+        $id=DB::table('products')->select('id')->latest('created_at', 'desc')->first();
+        foreach($categories_array as $category_array){
+            DB::table('category_ids')->insert(['category_id'=>$category_array,'product_id'=>$id->id]);
+        }
+        return true;
+    }
+
+    public function ImageName($length ,$image_path) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
@@ -162,8 +187,54 @@ class DashboardController extends Controller
         return $randomString.".".$image_path;
     }
 
-    function UpdateProductQuery($data,$id){
-        DB::table('products')->where('id',$id)->update($data);
+    public function DeleteProduct(Request $request){
+        $id=$request->id;
+        DB::table('products')->where('id', $request->id)->delete();
+        return true;
+
+    }
+
+
+
+    public function Categories(){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
+        $categories= DB::table('categories')->get();
+        return view('user\pages\dashboard\categories',compact('categories'));
+    }
+
+    public function GetCategory(Request $request){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
+        $category=DB::table('categories')->where('id',$request->id)->get();
+        $category=$category[0];
+        return $category;
+    }
+    
+    public function UpdateCategory(Request $request){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
+        DB::table('categories')->where('id',$request->id)->update($request->data);
+        return true;
+    }
+
+    public function AddCategory(Request $request){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
+        DB::table('categories')->insert($request->data);
+        return true;
+    }
+
+    public function DeleteCategory(Request $request){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
+        $id=$request->id;
+        DB::table('categories')->where('id', $request->id)->delete();
         return true;
     }
     

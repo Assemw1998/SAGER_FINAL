@@ -30,6 +30,15 @@
                         <span class="hide-menu">Proudcts</span>
                     </a>
                 </li>
+
+                 <!--products-->
+                 <li class="sidebar-item pt-2">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link text-decoration-none" href="{{url("dashboard/categories")}}"
+                        aria-expanded="false">
+                        <i class="fas fa-archive mr-2"></i>
+                        <span class="hide-menu">Categories</span>
+                    </a>
+                </li>
             </ul>
 
         </nav>

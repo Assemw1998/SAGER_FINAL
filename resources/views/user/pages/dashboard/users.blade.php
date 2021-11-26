@@ -1,7 +1,5 @@
 @extends('user.layouts.dashboard')
 @section('content')
-
-
 <div class="container text-dark">
     <div class="row col-12 text-right mb-3">
         <button type="button" class="btn btn-outline-primary w-25" id="add_user" data-bs-toggle="modal" data-bs-target="#add_new_user"><i class="fas fa-user-plus"></i> Add New User</button>

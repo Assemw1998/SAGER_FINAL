@@ -53,7 +53,19 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('dashboard/proudcts','user\DashboardController@Proudcts'); 
     Route::post('dashboard/product/get','user\DashboardController@GetProduct'); 
     Route::post('dashboard/product/update','user\DashboardController@UpdateProduct'); 
+    Route::post('dashboard/product/add','user\DashboardController@AddProduct'); 
+    Route::post('dashboard/product/delete','user\DashboardController@DeleteProduct'); 
 
+
+    /*categories*/
+    Route::get('dashboard/categories','user\DashboardController@Categories'); 
+    Route::post('dashboard/category/get','user\DashboardController@GetCategory'); 
+    Route::post('dashboard/category/update','user\DashboardController@UpdateCategory'); 
+    Route::post('dashboard/category/add','user\DashboardController@AddCategory'); 
+    Route::post('dashboard/category/delete','user\DashboardController@DeleteCategory'); 
+
+    
+    
 
     
     
