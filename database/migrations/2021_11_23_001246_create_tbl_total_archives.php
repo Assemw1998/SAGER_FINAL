@@ -16,8 +16,9 @@ class CreateTblTotalArchives extends Migration
         Schema::create('total_archives', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('total_products');
-            $table->integer('total_category');
+            $table->integer('total_categories');
             $table->integer('total_users');
+            $table->string('created_day',255);
             $table-> timestamp('created_at')->useCurrent();
             $table-> timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

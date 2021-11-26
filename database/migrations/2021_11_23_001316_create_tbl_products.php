@@ -20,6 +20,7 @@ class CreateTblProducts extends Migration
             $table->string('quantity', 255);
             $table->string('price', 255);
             $table->string('image_url', 255);
+            $table->string('created_by',255);
             $table->string('category_ids',255);
             $table-> timestamp('created_at')->useCurrent();
             $table-> timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

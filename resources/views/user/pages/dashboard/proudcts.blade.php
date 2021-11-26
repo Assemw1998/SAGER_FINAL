@@ -14,6 +14,7 @@
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Image</th>
+                    <th>Created By</th>
                     <th>Categories</th>
                     <th>Craeted At</th>
                     <th>Updated At</th>
@@ -29,6 +30,7 @@
                         <td>{{$product->quantity}}</td>
                         <td>{{$product->price}}</td>
                         <td><img src="{{asset("uploads")}}/{{$product->image_url}}" width="75"/></td>
+                        <td>{{$product->created_by}}</td>
                         <td>@php $category_ids=json_decode($product->category_ids); foreach($category_ids as $category_id){echo $category_id." ";} @endphp</td>
                         <td>{{$product->created_at}}</td>
                         <td>{{$product->updated_at}}</td>

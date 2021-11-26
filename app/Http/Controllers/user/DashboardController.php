@@ -17,9 +17,45 @@ class DashboardController extends Controller
             return redirect('/login');
         }
         $total_archives= DB::table('total_archives')->latest()->get();
-        $total_archives=$total_archives[0];
         return view('user\pages\dashboard\index',compact('total_archives'));
     }
+
+    public function ChartData(){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
+        $users_total=['Sun'=>'','Mon'=>'','Tue'=>'','Wed'=>'','Thu'=>'','Fri'=>'','Sat'=>''];
+        $products_total=['Sun'=>'','Mon'=>'','Tue'=>'','Wed'=>'','Thu'=>'','Fri'=>'','Sat'=>''];
+        $categories_total=['Sun'=>'','Mon'=>'','Tue'=>'','Wed'=>'','Thu'=>'','Fri'=>'','Sat'=>''];
+        foreach($users_total as $day=>$value){
+            $data=DB::table('total_archives')->select('total_users')->where('created_day',$day)->latest()->get();
+            if(isset($data[0]->total_users)){
+                $users_total[$day]=$data[0]->total_users;
+            }else{
+                $users_total[$day]=0;
+            }
+        }
+
+        foreach($categories_total as $day=>$value){
+            $data=DB::table('total_archives')->select('total_categories')->where('created_day',$day)->latest()->get();
+            if(isset($data[0]->total_categories)){
+                $categories_total[$day]=$data[0]->total_categories;
+            }else{
+                $categories_total[$day]=0;
+            }
+        }    
+
+        foreach($products_total as $day=>$value){
+            $data=DB::table('total_archives')->select('total_products')->where('created_day',$day)->latest()->get();
+            if(isset($data[0]->total_products	)){
+                $products_total[$day]=$data[0]->total_products	;
+            }else{
+                $products_total[$day]=0;
+            }
+        }
+        return $data=array($users_total,$products_total,$categories_total);
+    }
+  
     public function Users(){
         if(!Auth::check()){
             return redirect('/login');
@@ -40,6 +76,9 @@ class DashboardController extends Controller
     }
 
     public function UpdateUser(Request $request){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
         $data=$request->data;
         $id=$data['id'];
         unset($data['id']);
@@ -61,6 +100,9 @@ class DashboardController extends Controller
     }
 
     public function AddUser(Request $request){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
         $data=$request->data;
         $if_email_used=DB::table('users')->where('email',$data['email'])->count();
         if($if_email_used>0){
@@ -73,6 +115,9 @@ class DashboardController extends Controller
     }
 
     public function DeleteUser(Request $request){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
         $id=$request->id;
         $product=DB::table('users')->select('product')->where('id',$id)->get();
         $product=$product[0]->product;
@@ -87,6 +132,9 @@ class DashboardController extends Controller
 
 
     public function UpdateQuerie($data,$id){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
         $if_email_used=DB::table('users')->where('email',$data['email'])->where('id',"<>",$id)->count();
         if($if_email_used>0){
             return "This email already used by another user!";
@@ -97,6 +145,9 @@ class DashboardController extends Controller
     }
 
     public function CheckCurrentPassword($current_password,$id){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
         $password=DB::table('users')->select('password')->where('id',$id)->get();
         $password = $password[0]->password;
         if(!Hash::check($current_password,$password)){
@@ -125,6 +176,9 @@ class DashboardController extends Controller
     }
 
     public function UpdateProduct(Request $request){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
         $data=['name' => $request->name,'description' => $request->description,'quantity' => $request->quantity,'price'=>$request->price,'category_ids'=>$request->category_ids_table];
         $id=$request->product_id;
         if ($request->file('image_url')) {
@@ -143,6 +197,9 @@ class DashboardController extends Controller
 
 
     function UpdateProductQuery($data,$id,$categories_array){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
         $categories_array= json_decode($categories_array,true);
     
         DB::table('category_ids')->where('product_id', $id)->delete();
@@ -155,7 +212,10 @@ class DashboardController extends Controller
     }
 
     public function AddProduct(Request $request){
-        $data=['name' => $request->name,'description' => $request->description,'quantity' => $request->quantity,'price'=>$request->price,'category_ids'=>$request->category_ids_table_add];
+        if(!Auth::check()){
+            return redirect('/login');
+        }
+        $data=['name' => $request->name,'description' => $request->description,'quantity' => $request->quantity,'price'=>$request->price,'category_ids'=>$request->category_ids_table_add,'created_by'=>Auth::user()->email];
         $image_path = $request->file('image_url');
         $image_type=$image_path->getClientOriginalName();
         $image_type=explode('.', $image_type);
@@ -168,6 +228,9 @@ class DashboardController extends Controller
     }
 
     public function AddProductQuery($data,$categories_array){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
         $categories_array= json_decode($categories_array,true);
         DB::table('products')->insert($data);
         $id=DB::table('products')->select('id')->latest('created_at', 'desc')->first();
@@ -178,6 +241,9 @@ class DashboardController extends Controller
     }
 
     public function ImageName($length ,$image_path) {
+        if(!Auth::check()){
+            return redirect('/login');
+        }
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
@@ -188,6 +254,9 @@ class DashboardController extends Controller
     }
 
     public function DeleteProduct(Request $request){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
         $id=$request->id;
         DB::table('products')->where('id', $request->id)->delete();
         return true;

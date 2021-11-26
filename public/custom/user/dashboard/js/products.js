@@ -1,6 +1,8 @@
 $(document).ready( function () {
     $('select').selectpicker();
-    $('#products_table').DataTable();
+    $('#products_table').DataTable({
+        "scrollX": true
+    });
     var token=$('meta[name="csrf-token"]').attr('content');
     $(".page-title").html("Products");
 

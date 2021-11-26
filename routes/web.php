@@ -39,7 +39,9 @@ Route::group(['middleware' => ['web']], function() {
     
     //dashboard
     /*index*/
-    Route::get('dashboard/index','user\DashboardController@Index'); 
+    Route::get('dashboard/index','user\DashboardController@Index');
+    Route::post('/dashboard/chart_data','user\DashboardController@ChartData'); 
+    
 
     /*users*/
     Route::get('dashboard/users','user\DashboardController@Users'); 
@@ -63,12 +65,6 @@ Route::group(['middleware' => ['web']], function() {
     Route::post('dashboard/category/update','user\DashboardController@UpdateCategory'); 
     Route::post('dashboard/category/add','user\DashboardController@AddCategory'); 
     Route::post('dashboard/category/delete','user\DashboardController@DeleteCategory'); 
-
-    
-    
-
-    
-    
 });
 
 
