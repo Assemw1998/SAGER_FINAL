@@ -1,4 +1,36 @@
+$(document).ready( function () {
+    var token=$('meta[name="csrf-token"]').attr('content');
+    $(document).on("click","#foget-the-password",function(event) {
+        event.preventDefault()
+        var email=$("#email").val();
+        if(email==""){
+            Alert('Validation Error',"Email filed should not be empty!",'red','btn-red',false);
+        }else if(!isEmail(email)){
+            Alert('Validation Error',"Invalid Email",'red','btn-red',false);
+        }else{
+            $.ajax({
+                type:'POST',
+                url:'/FogetThePasswordAu',
+                data: {
+                    _token:token,
+                    email:email,
+                },
+                success: function(data) {  
+                    if(data==1){
+                        Alert('Changed','Your password has been sent to your email, please check your email and use the sent password!','green','btn-green',"rout");
+                    }else{
+                        Alert('Validation Error',data,'red','btn-red',false);
+                    }                  
+                },
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                Alert('Technical Error','Somthing went wrong please try again later.','red','btn-red',true);
+            });
+        } 
+        
 
+    });
+
+});
 particlesJS('particles-js',
     {
     "particles": {
@@ -117,7 +149,8 @@ particlesJS('particles-js',
     }
 );
 
-function alert(title,content,type,btn_color){
+//functions
+function Alert(title,content,type,btn_color,refresh){
     $.confirm({
         title: title,
         content: content,
@@ -128,8 +161,19 @@ function alert(title,content,type,btn_color){
                 text: 'Okay',
                 btnClass: btn_color,
                 action: function(){
+                if(refresh=="rout"){
+                    window.location = "/login";
+                }else if(refresh){
+                    location.reload();
+                }
                 }
             },
         }
     });
 }
+
+function isEmail(email) {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
+}
+

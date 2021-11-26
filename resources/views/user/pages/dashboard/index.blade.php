@@ -4,7 +4,7 @@
     <div class="card text-white bg-dark mb-4 " style="max-width: 18rem;">
         <div class="card-header">Users Total</div>
         <div class="card-body">
-            <h5 class="card-title"><span class="p-1 mb-1 bg-danger text-white rounded">
+            <h5 class="card-title"><span class="p-1 mb-1 bg-danger text-white rounded mr-2">
             @if(isset($total_archives[0]->total_users))
                 {{$total_archives[0]->total_users}} </span>Users</h5>
             @else 
@@ -16,7 +16,7 @@
     <div class="card text-white bg-warning  mb-4 " style="max-width: 18rem;">
         <div class="card-header">Prodcts Total</div>
         <div class="card-body">
-            <h5 class="card-title"><span class="p-1 mb-1 bg-danger text-white rounded">
+            <h5 class="card-title"><span class="p-1 mb-1 bg-danger text-white rounded mr-2">
             @if(isset($total_archives[0]->total_products))
                 {{$total_archives[0]->total_products}} </span>Products</h5>
             @else 
@@ -29,9 +29,9 @@
     <div class="card text-white bg-info " style="max-width: 18rem;">
         <div class="card-header">Categories Total</div>
         <div class="card-body">
-            <h5 class="card-title"><span class="p-1 mb-1 bg-danger text-white rounded">
-            @if(isset($total_archives[0]->total_category))
-                {{$total_archives[0]->total_category}} </span>Categories</h5>
+            <h5 class="card-title"><span class="p-1 mb-1 bg-danger text-white rounded mr-2">
+            @if(isset($total_archives[0]->total_categories))
+                {{$total_archives[0]->total_categories}} </span>Categories</h5>
             @else 
                 {{"There is no data yet"}} 
             @endif

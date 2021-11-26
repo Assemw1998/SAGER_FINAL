@@ -8,6 +8,8 @@ use Session;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Requests\LoginRequest;
+use DB;
+use Illuminate\Support\Facades\Hash;
 
 
 class AuthoriztionController extends Controller
@@ -73,5 +75,43 @@ class AuthoriztionController extends Controller
 
         return redirect('/');
     }
+    
+    public function ShowForgetThePassword(){
+        if(Auth::check()){
+            return redirect('dashboard/index');
+        }
+        return view('user\pages\forget_the_password');
+    }
+    public function FogetThePassword(Request $request){
+        if(Auth::check()){
+            return redirect('dashboard/index');
+        }
+        $user = DB::table('users')->where('email',$request->email)->count();
+        if($user==0){
+            return "Email not Registered";
+        }else{
+            $password=$this->randomPassword();
+            $details = [
+                'title' => 'New Password',
+                'body' => "your new password is $password"
+            ];
+            $password=Hash::make($password);
+            DB::table('users')->where('email', $request->email)->update(['password'=>$password]);
+            \Mail::to($request->email)->send(new \App\Mail\SendPassword($details));
+            return true;
+        }
+    }
+
+    function randomPassword() {
+        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < 12; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return implode($pass); //turn the array into a string
+    }
+
     
 }

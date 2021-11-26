@@ -33,6 +33,11 @@ Route::group(['middleware' => ['web']], function() {
     //Login Routes
     Route::get('/login', 'user\AuthoriztionController@showLogin');
     Route::post('LogInAu', 'user\AuthoriztionController@LogIn');
+
+    //forget the password route
+    Route::get('foget_the_password', 'user\AuthoriztionController@ShowForgetThePassword'); 
+    Route::post('FogetThePasswordAu', 'user\AuthoriztionController@FogetThePassword'); 
+    
     
     //logout
     Route::get('/logout','user\AuthoriztionController@LogOut');
@@ -64,7 +69,8 @@ Route::group(['middleware' => ['web']], function() {
     Route::post('dashboard/category/get','user\DashboardController@GetCategory'); 
     Route::post('dashboard/category/update','user\DashboardController@UpdateCategory'); 
     Route::post('dashboard/category/add','user\DashboardController@AddCategory'); 
-    Route::post('dashboard/category/delete','user\DashboardController@DeleteCategory'); 
+    Route::post('dashboard/category/delete','user\DashboardController@DeleteCategory');
+    
 });
 
 
