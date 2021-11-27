@@ -10,7 +10,7 @@
                 <tr>
                     <th>#</th>
                     <th>Name</th>
-                    <th>Description</th>
+                    <th width="300">Description</th>
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Image</th>

@@ -13,18 +13,8 @@ $(document).ready( function () {
 });
 
 function add_chart(users_total,products_total,categories_total){
-    const labels = [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-    ];
       
     const data = {
-        labels: labels,
         datasets: [{
           label: 'Users',
           backgroundColor: '#343a40',
